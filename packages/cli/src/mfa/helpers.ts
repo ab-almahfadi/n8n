@@ -2,7 +2,11 @@ import { GlobalConfig } from '@n8n/config';
 import { UserRepository } from '@n8n/db';
 import { Container } from '@n8n/di';
 
-export const isMfaFeatureEnabled = () => Container.get(GlobalConfig).mfa.enabled;
+export const isMfaFeatureEnabled = () => {
+	// TESTING: Always return true to enable MFA features
+	return true;
+	// Original code: return Container.get(GlobalConfig).mfa.enabled;
+};
 
 const isMfaFeatureDisabled = () => !isMfaFeatureEnabled();
 

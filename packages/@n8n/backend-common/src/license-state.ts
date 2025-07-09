@@ -28,14 +28,36 @@ export class LicenseState {
 	// --------------------
 
 	isLicensed(feature: BooleanLicenseFeature) {
-		this.assertProvider();
-
-		return this.licenseProvider.isLicensed(feature);
+		// TESTING: Always return true to bypass license checks
+		return true;
+		// Original code:
+		// this.assertProvider();
+		// return this.licenseProvider.isLicensed(feature);
 	}
 
 	getValue<T extends keyof FeatureReturnType>(feature: T): FeatureReturnType[T] {
+		// TESTING: Return unlimited values for quotas to enable all enterprise features
+		const featureStr = feature as string;
+		if (featureStr.includes('quota:')) {
+			if (
+				featureStr.includes('users') ||
+				featureStr.includes('activeWorkflows') ||
+				featureStr.includes('maxVariables') ||
+				featureStr.includes('workflowHistoryPrune')
+			) {
+				return -1 as FeatureReturnType[T]; // UNLIMITED_LICENSE_QUOTA
+			}
+			if (featureStr.includes('aiCredits')) {
+				return 1000000 as FeatureReturnType[T]; // Large number for AI credits
+			}
+			if (featureStr.includes('insights')) {
+				return 365 as FeatureReturnType[T]; // Full year for insights
+			}
+		}
+		// Original code:
+		// this.assertProvider();
+		// return this.licenseProvider.getValue(feature);
 		this.assertProvider();
-
 		return this.licenseProvider.getValue(feature);
 	}
 

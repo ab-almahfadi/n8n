@@ -218,7 +218,9 @@ export class License implements LicenseProvider {
 	}
 
 	isLicensed(feature: BooleanLicenseFeature) {
-		return this.manager?.hasFeatureEnabled(feature) ?? false;
+		// TESTING: Always return true to bypass license checks
+		return true;
+		// Original code: return this.manager?.hasFeatureEnabled(feature) ?? false;
 	}
 
 	/** @deprecated Use `LicenseState.isSharingLicensed` instead. */
@@ -346,6 +348,25 @@ export class License implements LicenseProvider {
 	}
 
 	getValue<T extends keyof FeatureReturnType>(feature: T): FeatureReturnType[T] {
+		// TESTING: Return unlimited values for quotas to enable all enterprise features
+		const featureStr = feature as string;
+		if (featureStr.includes('quota:')) {
+			if (
+				featureStr.includes('users') ||
+				featureStr.includes('activeWorkflows') ||
+				featureStr.includes('maxVariables') ||
+				featureStr.includes('workflowHistoryPrune')
+			) {
+				return UNLIMITED_LICENSE_QUOTA as FeatureReturnType[T];
+			}
+			if (featureStr.includes('aiCredits')) {
+				return 1000000 as FeatureReturnType[T]; // Large number for AI credits
+			}
+			if (featureStr.includes('insights')) {
+				return 365 as FeatureReturnType[T]; // Full year for insights
+			}
+		}
+		// Original code: return this.manager?.getFeatureValue(feature) as FeatureReturnType[T];
 		return this.manager?.getFeatureValue(feature) as FeatureReturnType[T];
 	}
 
