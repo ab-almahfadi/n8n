@@ -35,6 +35,8 @@
     "optimize-svg": "find ./packages -name '*.svg' ! -name 'pipedrive.svg' -print0 | xargs -0 -P16 -L20 npx svgo",
     "start": "run-script-os",
     "start:default": "cd packages/cli/bin && ./n8n",
+    "start:prod": "node packages/cli/bin/n8n start",
+    "start:cloud": "node packages/cli/bin/n8n start",
     "start:tunnel": "./packages/cli/bin/n8n start --tunnel",
     "start:windows": "cd packages/cli/bin && n8n",
     "test": "JEST_JUNIT_CLASSNAME={filepath} turbo run test",
@@ -44,6 +46,9 @@
     "watch": "turbo run watch --parallel",
     "webhook": "./packages/cli/bin/n8n webhook",
     "worker": "./packages/cli/bin/n8n worker"
+  },
+  "dependencies": {
+    "run-script-os": "^1.0.7"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.0",
@@ -66,7 +71,6 @@
     "npm-run-all2": "^7.0.2",
     "p-limit": "^3.1.0",
     "rimraf": "^5.0.1",
-    "run-script-os": "^1.0.7",
     "supertest": "^7.1.1",
     "ts-jest": "^29.1.1",
     "tsc-alias": "^1.8.10",
