@@ -63,7 +63,7 @@ export async function initializeCore() {
 	});
 
 	const banners: BannerName[] = [];
-	if (settingsStore.isEnterpriseFeatureEnabled.showNonProdBanner) {
+	if (!settingsStore.isEnterpriseFeatureEnabled.showNonProdBanner) {
 		banners.push('NON_PRODUCTION_LICENSE');
 	}
 	if (
